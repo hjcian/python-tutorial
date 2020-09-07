@@ -32,7 +32,7 @@ def register():
 
     if username in USERS:
         # return "user {} exists".format(username)
-        # return "user {} exists".format(username), 404
+        # return "user {} exists".format(username), 406
         return Response(
             status=406,
             response=json.dumps({

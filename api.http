@@ -1,0 +1,28 @@
+@local=localhost
+@port=8888
+@username=max
+
+### hello
+GET http://{{local}}:{{port}}/ HTTP/1.1
+
+
+### register
+POST http://{{local}}:{{port}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "hello": "world",
+    "username": "max"
+}
+
+### balance
+GET http://{{local}}:{{port}}/balance/{{username}} HTTP/1.1
+
+### deposit
+POST http://{{local}}:{{port}}/deposit/{{username}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "hello": "world",
+    "amount": 999
+}

@@ -3,6 +3,9 @@ class Point(object):
         self.x = x
         self.y = y
 
+    def __repr__(self):
+        return "<Point ({}, {})>".format(self.x, self.y)
+
     def distanceFromOrigin(self):
         dist = (self.x ** 2 + self.y **2) ** 0.5
         return dist
@@ -20,17 +23,4 @@ if __name__ == "__main__":
     print(p2)
     print("P2 dist. from origin:", p2.distanceFromOrigin())
 
-# class Point():
-#     def __init__(self, x, y):
-#         self.x = x
-#         self.y = y
-
-#     def distanceFromOrigin(self):
-#         dist = (self.x ** 2 + self.y **2) ** 0.5
-#         return dist
-
-# if __name__ == "__main__":
-#     point = Point(3, 4)
-#     print(point)
-#     print(point.x)
-#     print(point.distanceFromOrigin())
+    

@@ -7,7 +7,6 @@ def sendRequest(url):
     resp = requests.get(url)
     diff = time.time() - start
     print("consume {:.2f} s on {}".format(diff, url))
-    return (url, diff)
 
 if __name__ == "__main__":
 

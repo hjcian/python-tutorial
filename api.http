@@ -2,6 +2,12 @@
 @port=8888
 @username=max
 
+### a/b/c.htm
+GET http://127.0.0.1:3456/a/b/c.htm HTTP/1.1
+
+### a/a/a.htm
+GET http://127.0.0.1:3456/a/a/a.htm HTTP/1.1
+
 ### hello
 GET http://{{local}}:{{port}}/ HTTP/1.1
 

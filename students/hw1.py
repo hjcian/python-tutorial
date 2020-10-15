@@ -10,10 +10,9 @@ def getdata(url) :
     a_tags = soup.findAll("a") #用"li"下面print 不能跑,使用"a"可以但會搜到class    
 
     hrefs = []
-    for idx, nextlink in enumerate(a_tags):
-        # print(type(nextlink))
-        print(idx, nextlink["href"])#問老師為什麼要用[] , 我要的是尋找href標籤
-        hrefs.append(nextlink["href"])
+    for idx, a_tag in enumerate(a_tags):
+        print(idx, a_tag["href"])#問老師為什麼要用[] , 我要的是尋找href標籤
+        hrefs.append(a_tag["href"])
     return hrefs
 
 #主程序 抓取多個頁面

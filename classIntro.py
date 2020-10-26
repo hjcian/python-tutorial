@@ -10,12 +10,11 @@ class Point(object):
         dist = (self.x ** 2 + self.y **2) ** 0.5
         return dist
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     p1 = Point(x=3, y=4)
     print(p1)
     print("Point1 x:", p1.x)
     print("Point1 y:", p1.y)
-
     print("P1 dist. from origin:", p1.distanceFromOrigin())
 
     print()
@@ -23,4 +22,4 @@ if __name__ == "__main__":
     print(p2)
     print("P2 dist. from origin:", p2.distanceFromOrigin())
 
-    
+

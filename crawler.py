@@ -9,7 +9,7 @@ if __name__ == "__main__":
     root = sys.argv[1]
     layer = int(sys.argv[2])
 
-    urls = set() # collect urls
+    urls = set()  # collect urls
     jobs = [root]
 
     for l in range(layer):
@@ -21,7 +21,7 @@ if __name__ == "__main__":
                 continue
 
             resp = requests.get(url)
-            urls.add(url) # record what we fetched to avoid fetching twice
+            urls.add(url)  # record what we fetched to avoid fetching twice
 
             soup = BeautifulSoup(resp.text, 'html.parser')
 

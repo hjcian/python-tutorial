@@ -1,11 +1,13 @@
 import time
 import requests
 
+
 def sendRequest(url):
     start = time.time()
     resp = requests.get(url)
     diff = time.time() - start
     print("consume {:.2f} s on {}".format(diff, url))
+
 
 if __name__ == "__main__":
     start = time.time()

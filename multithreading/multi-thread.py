@@ -5,7 +5,7 @@ import threading
 
 def sendRequest(url):
     start = time.time()
-    resp = requests.get(url)
+    _ = requests.get(url)
     diff = time.time() - start
     print("consume {:.2f} s on {}".format(diff, url))
 

@@ -1,4 +1,3 @@
-import time
 from flask import Flask, request
 from flask import Response
 
@@ -10,16 +9,18 @@ USERS = {
     "max": 0
 }
 
+
 @app.route('/')
 def hello():
     return "hello world!"
+
 
 @app.route('/register', methods=['POST'])
 def register():
     req = request.get_json()
     username = req.get("username")
 
-    if not username:        
+    if not username:
         # return "NG"
         # return "NG", 400
         return Response(
@@ -52,6 +53,7 @@ def register():
         mimetype="application/json",
     )
 
+
 @app.route("/balance/<username>", methods=['GET'])
 def balance(username):
     if username not in USERS:
@@ -75,7 +77,7 @@ def balance(username):
 
 @app.route("/deposit/<username>", methods=['POST'])
 def deposit(username):
-    
+
     if username not in USERS:
         return Response(
             status=404,
@@ -95,7 +97,7 @@ def deposit(username):
             }),
             mimetype="application/json",
         )
-    
+
     USERS[username] += amount
 
     return Response(
@@ -106,6 +108,7 @@ def deposit(username):
         mimetype="application/json",
     )
 
+
 if __name__ == "__main__":
     print("Start server")
 
@@ -113,5 +116,5 @@ if __name__ == "__main__":
     port = 8888
 
     app.run(host=host, port=port, debug=True)
-    
+
     print("Server shutdonw")

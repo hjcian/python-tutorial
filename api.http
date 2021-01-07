@@ -1,34 +1,54 @@
-@local=localhost
-@port=8888
-@username=max
+# @local=localhost
+# @port=3456
+# @username=max
+@username=maxcian
 
-### a/b/c.htm
-GET http://127.0.0.1:3456/a/b/c.htm HTTP/1.1
+### GET /
+GET http://127.0.0.1:3456/agfsadga HTTP/1.1
 
-### a/a/a.htm
-GET http://127.0.0.1:3456/a/a/a.htm HTTP/1.1
-
-### hello
-GET http://{{local}}:{{port}}/ HTTP/1.1
+### POST /login
+POST http://127.0.0.1:3456/login HTTP/1.1
 
 
 ### register
-POST http://{{local}}:{{port}}/register HTTP/1.1
+POST http://127.0.0.1:3456/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "hello": "world",
-    "username": "max"
+    "username": "maxcian"
 }
 
 ### balance
-GET http://{{local}}:{{port}}/balance/{{username}} HTTP/1.1
+GET http://127.0.0.1:3456/balance/maxcian HTTP/1.1
 
 ### deposit
-POST http://{{local}}:{{port}}/deposit/{{username}} HTTP/1.1
+POST http://127.0.0.1:3456/deposit/maxcian HTTP/1.1
 Content-Type: application/json
 
 {
-    "hello": "world",
     "amount": 999
 }
+
+# =================================================================
+# Echo server API referneces
+# =================================================================
+
+### GET echo API
+GET http://localhost:12345/get?aaa=bbb HTTP/1.1
+X-test-headers: hahapoint
+
+### POST echo API (text/plain)
+POST http://localhost:12345/post?foo=bar HTTP/1.1
+Content-Type: text/plain
+X-test-foobar: hello world
+
+haha, this is body text
+
+
+### POST echo API (text/json)
+POST http://localhost:12345/post?foo=bar HTTP/1.1
+Content-Type: application/json
+X-test-foobar: hello world
+
+{"foo": "bar", "nested": [123, 456, 789]}
+

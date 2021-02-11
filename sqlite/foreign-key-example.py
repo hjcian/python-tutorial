@@ -25,7 +25,7 @@ def showUserpets(db):
 
 if __name__ == "__main__":
     db = sqlite3.connect(":memory:")
-    db.isolation_level = None  # 取消 python sqlite3 autocommit 的功能，方便我們自己控制 TX
+    db.isolation_level = None  # 取消 python sqlite3 autocommit 的功能，TX 才會由我們自己控制
     db.execute("pragma foreign_keys = on")  # https://www.sqlite.org/pragma.html#pragma_foreign_keys
 
     users = """
@@ -44,6 +44,7 @@ if __name__ == "__main__":
     )
     """
     # create tables
+    # 如果未在上述的語法中描述 IF NOT EXISTS，則會 return error
     try:
         c = db.cursor()
         c.execute(users)
@@ -51,9 +52,8 @@ if __name__ == "__main__":
         db.commit()
     except Exception as err:
         print("create table error:", err)
-        db.rollback()
 
-    # isnert one record
+    # isnert max OK
     try:
         c = db.cursor()
         c.execute("BEGIN")
@@ -65,7 +65,8 @@ if __name__ == "__main__":
 
     showUsers(db)
 
-    # insert two records but one of them is alredy exists
+    # insert bob and max, but max is already exists due to UNIQUE constraint
+    # the bob would not insert into table due to rollback
     try:
         c = db.cursor()
         c.execute("BEGIN")
@@ -83,6 +84,8 @@ if __name__ == "__main__":
         c = db.cursor()
         c.execute("BEGIN")
         c.execute("INSERT INTO users (name) VALUES (?)", ("bob",))
+        # isnert bob 之後，users 裡只有兩筆資料，id 流水號只編到 2
+        # 故下面故意插入一筆 user_id = 3 的資料會造成錯誤
 
         pets = [
             ("taro", "cat", 1),

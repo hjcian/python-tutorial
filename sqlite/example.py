@@ -23,6 +23,11 @@ def showUserpets(db):
         print("select error:", err)
 
 
+class Cursor:
+    def __init__(self):
+        pass
+
+
 if __name__ == "__main__":
     db = sqlite3.connect(":memory:")
     db.isolation_level = None  # 取消 python sqlite3 autocommit 的功能，TX 才會由我們自己控制
@@ -44,23 +49,31 @@ if __name__ == "__main__":
     )
     """
     # create tables
-    # 如果未在上述的語法中描述 IF NOT EXISTS，則會 return error
     try:
-        c = db.cursor()
-        c.execute(users)
+        c = db.cursor()  # thread1 (c1) -> db(shared memory, race condition) <- thread2 (c2)
+        c.execute(users)  # multi-thread python app(db object) <- (rows) <- DB
         c.execute(user_pets)
         db.commit()
     except Exception as err:
         print("create table error:", err)
 
-    # isnert max OK
+    # insert max OK
     try:
         c = db.cursor()
         c.execute("BEGIN")
+        name = "max"  # user input
+        # name = "max'); DROP TABLE users; ('"  # sql injection example
+        # string concatenate
+        # stmt = 'INSERT INTO users (name) VALUES (\'{0}\')'.format(name)
+        # stmt = f"INSERT INTO users (name) VALUES ('{name}')"
+        # stmt = "INSERT INTO users (name) VALUES ('" + name + "')"
+        # SQL injection
+
+        # best practice: 參數化 parameterized
         c.execute("INSERT INTO users (name) VALUES (?)", ("max",))
         db.commit()
     except Exception as err:
-        print("insert error:", err)
+        print("insert OK, should not print this error:", err)
         db.rollback()
 
     showUsers(db)
@@ -74,7 +87,7 @@ if __name__ == "__main__":
         c.execute("INSERT INTO users (name) VALUES (?)", ("max",))
         db.commit()
     except Exception as err:
-        print("insert error:", err)
+        print("max is exists, should raise error:", err)
         db.rollback()
 
     showUsers(db)
@@ -89,12 +102,12 @@ if __name__ == "__main__":
 
         pets = [
             ("taro", "cat", 1),
-            ("chuchu", "cat", 3),
+            ("chuchu", "cat", 3),  # user_id=3 is not exists
             ]
         c.executemany("INSERT INTO user_pets (name, type, user_id) VALUES (?,?,?)", pets)
         db.commit()
     except Exception as err:
-        print("insert pets error:", err)
+        print("user_id=3 is not exists, should raise error:", err)
         db.rollback()
 
     showUserpets(db)
